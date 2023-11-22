@@ -230,10 +230,12 @@
         }
         video {
             width: 100%;
-            height: 100vh; /* 画面の高さいっぱいに広がるように設定 */
-            z-index: -1;
-            position: absolute;
-            top:0;
+            height: 100vh;
+            object-fit: cover; /* カメラ映像を元のアスペクト比を保ちつつ全体に表示 */
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1; /* 他のコンテンツよりも奥に配置 */
         }
     </style>
     
