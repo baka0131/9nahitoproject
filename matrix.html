@@ -32,6 +32,9 @@
     width = q.width = window.innerWidth;
     height = q.height = window.innerHeight;
   }
+  window.onclick = function(){
+    document.documentElement.requestFullscreen();
+  }
   var fontS = 15
   var letters = Array(256).join(1).split('');
       // Matrix rainで降らせる文字（日本語を入れてもよい）
