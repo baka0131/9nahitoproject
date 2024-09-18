@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RGB Background Color Change</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .color-change {
+    width: 300px;
+    height: 300px;
+    transition: background-color 0.5s ease-in-out;
+  }
+</style>
+</head>
+<body style="margin: 0;">
+  <canvas id="q"></canvas>
+<div class="color-change"></div>
+
+<script>
+  var width = q.width = window.innerWidth; // ブラウザ画面の幅
+  var height = q.height = window.innerHeight; // ブラウザ画面の高さ
+  window.onresize = function(){
+    width = q.width = window.innerWidth;
+    height = q.height = window.innerHeight;
+  }
+  window.onclick = function(){
+    document.documentElement.requestFullscreen();
+  }
+  var fontS = 15
+  var letters = Array(256).join(1).split('');
+      // Matrix rainで降らせる文字（日本語を入れてもよい）
+  var matrix = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz123456789@#$%^&*()*&^%";
+
+    var draw = function () {
+      q.getContext('2d').fillStyle=`rgba(0,0,0,.05)`;
+      q.getContext('2d').fillRect(0,0,width,height);
+      q.getContext('2d').fillStyle=`rgb(${red},${green},${blue})`;
+      letters.map(function(y_pos, index){
+      text = Math.floor( Math.random() * fontS );
+      text = matrix[Math.floor(Math.random() * matrix.length)];
+      x_pos = index * fontS;
+      q.getContext('2d').fillText(text, x_pos, y_pos);
+      q.getContext('2d').font = `${fontS+2}px 'Monaco'`; // MonacoはMacOS標準搭載のフォントらしい。コメントアウトするとcanvasデフォルトのフォントとなる
+      letters[index] = (y_pos > 0 + Math.random() * 1e4) ? 0 : y_pos + fontS;
+      });
+    };
+  setInterval(draw, 30); // Matrix rainが降ってくる速さ
+  // JavaScript to change background color
+  const div = document.querySelector('.color-change');
+  let red = 255;
+  let green = 0;
+  let blue = 0;
+  let r = true;
+  let g = true;
+  let b = false;
+  let step = 1;
+
+  function changeColor() {
+    if(!g){
+      if(green > 0){
+        green-=step;
+      }else{
+        //赤0緑0青255
+        r = true;
+      }
+    }else{
+      if(green < 255){
+        green+=step/2;
+      }else{
+        //赤255緑255青0 １番 赤→黄色→緑→アクア→青→紫→赤
+        r = false;
+        g = true;
+      }
+    }
+
+    if(!r){
+      if(red > 0){
+        red-=step;
+      }else{
+        //赤0緑255青0　緑→アクア→青
+        b = true;
+      }
+    }else{
+      if(red < 255){
+        red+=step;
+      }else{
+        //赤255緑0青255
+        b = false;
+      }
+    }
+    if(!b){
+      if(blue > 0){
+        blue-=step;
+      }else{
+        //赤255緑0青0
+        g = true;
+      }
+    }else{
+      if(blue < 255){
+        blue+=step;
+      }else{
+        //赤0緑255青255
+        g = false;
+      }
+    }
+    
+    div.style.color = `rgb(${red}, ${green}, ${blue})`;
+  }
+
+  setInterval(changeColor, 10); // Change color every 50 milliseconds
+</script>
+
+</body>
+</html>
+
