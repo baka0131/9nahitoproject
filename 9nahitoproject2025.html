@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RGB Background & Auto Popups</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .color-change {
+    width: 300px;
+    height: 300px;
+    transition: background-color 0.5s ease-in-out;
+  }
+
+  .popup {
+    position: absolute;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transition: opacity 0.5s;
+  }
+</style>
+</head>
+<body>
+  <canvas id="q"></canvas>
+  <div class="color-change"></div>
+
+<script>
+  var width = q.width = window.innerWidth;
+  var height = q.height = window.innerHeight;
+  window.onresize = function() {
+    width = q.width = window.innerWidth;
+    height = q.height = window.innerHeight;
+  }
+
+  var fontS = 15;
+  var letters = Array(256).join(1).split('');
+  var matrix = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz123456789@#$%^&*()";
+
+  var draw = function () {
+    var ctx = q.getContext('2d');
+    ctx.fillStyle = `rgba(0,0,0,.05)`;
+    ctx.fillRect(0, 0, width, height);
+    ctx.fillStyle = `rgb(${red},${green},${blue})`;
+    letters.map(function(y_pos, index) {
+      text = matrix[Math.floor(Math.random() * matrix.length)];
+      x_pos = index * fontS;
+      ctx.fillText(text, x_pos, y_pos);
+      ctx.font = `${fontS+2}px 'Monaco'`;
+      letters[index] = (y_pos > 0 + Math.random() * 1e4) ? 0 : y_pos + fontS;
+    });
+  };
+  setInterval(draw, 30);
+
+  let red = 255, green = 0, blue = 0;
+  let step = 1;
+  function changeColor() {
+    if (green < 255) green += step / 2; else red -= step;
+    if (red < 0) { red = 0; blue += step; }
+    if (blue > 255) { blue = 255; green -= step; }
+    if (green < 0) { green = 0; red += step; }
+    document.querySelector('.color-change').style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
+  }
+  setInterval(changeColor, 10);
+
+  function createPopup() {
+    let popup = document.createElement('div');
+    popup.classList.add('popup');
+    popup.innerText = "Hello!";
+    document.body.appendChild(popup);
+
+    let x = Math.random() * (window.innerWidth - 100);
+    let y = Math.random() * (window.innerHeight - 50);
+    popup.style.left = `${x}px`;
+    popup.style.top = `${y}px`;
+    popup.style.opacity = "1";
+
+    setTimeout(() => {
+      popup.style.opacity = "0";
+      setTimeout(() => popup.remove(), 500);
+    }, 3000);
+  }
+
+  function triggerPopups() {
+    createPopup();
+    setTimeout(triggerPopups, Math.random() * 4000 + 1000);
+  }
+
+  triggerPopups();
+</script>
+</body>
+</html>
