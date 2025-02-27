@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Speech Demo</title>
+</head>
+<body>
+    <h1>Real-Time Speech Demo</h1>
+    <p>Type in the text box below, select a language, and it will be spoken in real-time.</p>
+    <select id="languageSelect">
+        <option value="en-US">English</option>
+        <option value="ja-JP">日本語</option>
+    </select>
+    <br><br>
+    <input type="text" id="inputText" placeholder="Type your text here" size="50">
+    <button id="deleteButton">Delete</button>
+    <label for="autoDelete">Auto Delete after Speech</label>
+    <input type="checkbox" id="autoDelete">
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const inputText = document.getElementById('inputText');
+            const languageSelect = document.getElementById('languageSelect');
+            const deleteButton = document.getElementById('deleteButton');
+            const autoDeleteCheckbox = document.getElementById('autoDelete');
+
+            inputText.addEventListener('input', () => {
+                const text = inputText.value;
+                const language = languageSelect.value;
+
+                if (text.trim() === "") {
+                    return;  // Ignore empty input
+                }
+
+                // Use Web Speech API's SpeechSynthesis
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = language;  // Set the selected language
+
+                // Cancel previous speech and start new one to avoid overlap
+                window.speechSynthesis.cancel();
+                window.speechSynthesis.speak(utterance);
+
+                // Event listener for when speech ends to delete input text
+                utterance.onend = () => {
+                    if (autoDeleteCheckbox.checked) {
+                        clearInput();
+                    }
+                };
+            });
+
+            // Function to clear input text
+            function clearInput() {
+                inputText.value = '';
+            }
+
+            // Event listener for delete button
+            deleteButton.addEventListener('click', clearInput);
+        });
+    </script>
+</body>
+</html>
