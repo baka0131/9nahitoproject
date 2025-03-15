@@ -5,7 +5,6 @@
 - 📫 How to reach me ...
 - 
 https://baka0131.github.io/9nahitoproject/
-https://baka0131.github.io/9nahitoproject/chatGPT.html
 https://baka0131.github.io/9nahitoproject/a.html
 https://baka0131.github.io/9nahitoproject/9nahitoproject2025.html
 https://baka0131.github.io/9nahitoproject/RealTimeSpeechDemo.html
