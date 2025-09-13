@@ -1,83 +1,123 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>9nahitoproject Subscriber & Views Counter</title>
+    <title>RGB Background Color Change</title>
     <style>
         body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            background-color: #f0f0f0;
-            font-family: Arial, sans-serif;
         }
-        .counter {
-            font-size: 3em;
-            color: #333;
-        }
-        .logo {
-            border-radius: 50%;
-            width: 100px;
-            height: 100px;
-            background-image: url('https://yt3.googleusercontent.com/ytc/AIdro_lbpfOC9I8qLiOVcpkqVGISdiSIIKblr7zkprr7zVhB1cV6PVM=s160-c-k-c0x00ffffff-no-rj');
-            background-size: cover;
-            margin-bottom: 20px;
-        }
-        .search-bar {
-            width: 30%; /* æ¨ªå¹…ã‚’ç”»é¢ã‚µã‚¤ã‚ºã®30%ã«è¨­å®š */
-            padding: 10px;
-            margin-top: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+
+        .color-change {
+            width: 300px;
+            height: 300px;
+            transition: background-color 0.5s ease-in-out;
         }
     </style>
 </head>
-<body>
-    <div class="counter">9nahitoproject ãƒãƒ£ãƒ³ãƒãƒ«ç™»éŒ²è€…: <span id="subscribers">0</span></div>
-    <div class="counter">è¦–è´å›æ•°: <span id="views">0</span></div>
-    <div class="counter">å‹•ç”»æœ¬æ•°: <span id="videos">0</span></div>
-    <div class="logo"></div>
-    <input type="text" class="search-bar" placeholder="9nahitoprojectã§æ¤œç´¢">
+<body style="margin: 0;">
+    <canvas id="q"></canvas>
+    <div class="color-change"></div>
+
     <script>
-        let subscriberCount = 0;
-        const subscriberTarget = 818;
-        let viewCount = 0;
-        const viewTarget = 128802;
-        let videoCount = 0;
-        const videoTarget = 267;
+  var width = q.width = window.innerWidth; // ƒuƒ‰ƒEƒU‰æ–Ê‚Ì•
+  var height = q.height = window.innerHeight; // ƒuƒ‰ƒEƒU‰æ–Ê‚Ì‚‚³
+  window.onresize = function(){
+    width = q.width = window.innerWidth;
+    height = q.height = window.innerHeight;
+  }
+  window.onclick = function(){
+    document.documentElement.requestFullscreen();
+  }
+  var fontS = 30
+  var letters = Array(256).join(1).split('');
+      // Matrix rain‚Å~‚ç‚¹‚é•¶ši“ú–{Œê‚ğ“ü‚ê‚Ä‚à‚æ‚¢j
+  var matrix = "01";
 
-        function updateSubscribers() {
-            if (subscriberCount <= subscriberTarget) {
-                document.getElementById('subscribers').textContent = subscriberCount;
-                subscriberCount++;
-                setTimeout(updateSubscribers, 10);
-            }
-        }
+    var draw = function () {
+      q.getContext('2d').fillStyle=`rgba(0,0,0,.1)`;
+      q.getContext('2d').fillRect(0,0,width,height);
+      q.getContext('2d').fillStyle=`white`;
+      letters.map(function(y_pos, index){
+      text = Math.floor( Math.random() * fontS );
+      text = matrix[Math.floor(Math.random() * matrix.length)];
+      x_pos = index * fontS;
+      q.getContext('2d').fillText(text, x_pos, y_pos);
+      q.getContext('2d').font = `${fontS+2}px 'Monaco'`; // Monaco‚ÍMacOS•W€“‹Ú‚ÌƒtƒHƒ“ƒg‚ç‚µ‚¢BƒRƒƒ“ƒgƒAƒEƒg‚·‚é‚ÆcanvasƒfƒtƒHƒ‹ƒg‚ÌƒtƒHƒ“ƒg‚Æ‚È‚é
+      letters[index] = (y_pos > 0 + Math.random() * 1e4) ? 0 : y_pos + fontS;
+      });
+    };
+  setInterval(draw, 30); // Matrix rain‚ª~‚Á‚Ä‚­‚é‘¬‚³
+  // JavaScript to change background color
+  const div = document.querySelector('.color-change');
+  let red = 255;
+  let green = 0;
+  let blue = 0;
+  let r = true;
+  let g = true;
+  let b = false;
+  let step = 1;
 
-        function updateViews() {
-            if (viewCount <= viewTarget) {
-                document.getElementById('views').textContent = viewCount;
-                viewCount++;
-                setTimeout(updateViews, 0.1); // è¦–è´å›æ•°ã®ã‚«ã‚¦ãƒ³ãƒˆã‚¢ãƒƒãƒ—é€Ÿåº¦ã‚’èª¿æ•´ã§ãã¾ã™ï¼ˆã“ã“ã§ã¯1ãƒŸãƒªç§’ã”ã¨ã«1å¢—åŠ ï¼‰
-            }
-        }
+  function changeColor() {
+    if(!g){
+      if(green > 0){
+        green-=step;
+      }else{
+        //Ô0—Î0Â255
+        r = true;
+      }
+    }else{
+      if(green < 255){
+        green+=step/2;
+      }else{
+        //Ô255—Î255Â0 ‚P”Ô Ô¨‰©F¨—Î¨ƒAƒNƒA¨Â¨‡¨Ô
+        r = false;
+        g = true;
+      }
+    }
 
-        function updateVideos() {
-            if (videoCount <= videoTarget) {
-                document.getElementById('videos').textContent = videoCount;
-                videoCount++;
-                setTimeout(updateVideos, 15); // å‹•ç”»æœ¬æ•°ã®ã‚«ã‚¦ãƒ³ãƒˆã‚¢ãƒƒãƒ—é€Ÿåº¦ã‚’èª¿æ•´ã§ãã¾ã™
-            }
-        }
+    if(!r){
+      if(red > 0){
+        red-=step;
+      }else{
+        //Ô0—Î255Â0@—Î¨ƒAƒNƒA¨Â
+        b = true;
+      }
+    }else{
+      if(red < 255){
+        red+=step;
+      }else{
+        //Ô255—Î0Â255
+        b = false;
+      }
+    }
+    if(!b){
+      if(blue > 0){
+        blue-=step;
+      }else{
+        //Ô255—Î0Â0
+        g = true;
+      }
+    }else{
+      if(blue < 255){
+        blue+=step;
+      }else{
+        //Ô0—Î255Â255
+        g = false;
+      }
+    }
 
-        window.onload = function() {
-            updateSubscribers();
-            updateViews();
-            updateVideos();
-        };
+    div.style.color = `rgb(${red}, ${green}, ${blue})`;
+  }
+
+  setInterval(changeColor, 10); // Change color every 50 milliseconds
     </script>
+
 </body>
 </html>
