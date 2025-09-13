@@ -26,8 +26,8 @@
     <div class="color-change"></div>
 
     <script>
-  var width = q.width = window.innerWidth; // ƒuƒ‰ƒEƒU‰æ–Ê‚Ì•
-  var height = q.height = window.innerHeight; // ƒuƒ‰ƒEƒU‰æ–Ê‚Ì‚‚³
+  var width = q.width = window.innerWidth; // ãƒ–ãƒ©ã‚¦ã‚¶ç”»é¢ã®å¹…
+  var height = q.height = window.innerHeight; // ãƒ–ãƒ©ã‚¦ã‚¶ç”»é¢ã®é«˜ã•
   window.onresize = function(){
     width = q.width = window.innerWidth;
     height = q.height = window.innerHeight;
@@ -37,23 +37,23 @@
   }
   var fontS = 30
   var letters = Array(256).join(1).split('');
-      // Matrix rain‚Å~‚ç‚¹‚é•¶ši“ú–{Œê‚ğ“ü‚ê‚Ä‚à‚æ‚¢j
+      // Matrix rainã§é™ã‚‰ã›ã‚‹æ–‡å­—ï¼ˆæ—¥æœ¬èªã‚’å…¥ã‚Œã¦ã‚‚ã‚ˆã„ï¼‰
   var matrix = "01";
 
     var draw = function () {
       q.getContext('2d').fillStyle=`rgba(0,0,0,.1)`;
       q.getContext('2d').fillRect(0,0,width,height);
-      q.getContext('2d').fillStyle=`white`;
+      q.getContext('2d').fillStyle=`red`;
       letters.map(function(y_pos, index){
       text = Math.floor( Math.random() * fontS );
       text = matrix[Math.floor(Math.random() * matrix.length)];
       x_pos = index * fontS;
       q.getContext('2d').fillText(text, x_pos, y_pos);
-      q.getContext('2d').font = `${fontS+2}px 'Monaco'`; // Monaco‚ÍMacOS•W€“‹Ú‚ÌƒtƒHƒ“ƒg‚ç‚µ‚¢BƒRƒƒ“ƒgƒAƒEƒg‚·‚é‚ÆcanvasƒfƒtƒHƒ‹ƒg‚ÌƒtƒHƒ“ƒg‚Æ‚È‚é
+      q.getContext('2d').font = `${fontS+2}px 'Monaco'`; // Monacoã¯MacOSæ¨™æº–æ­è¼‰ã®ãƒ•ã‚©ãƒ³ãƒˆã‚‰ã—ã„ã€‚ã‚³ãƒ¡ãƒ³ãƒˆã‚¢ã‚¦ãƒˆã™ã‚‹ã¨canvasãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ãƒ•ã‚©ãƒ³ãƒˆã¨ãªã‚‹
       letters[index] = (y_pos > 0 + Math.random() * 1e4) ? 0 : y_pos + fontS;
       });
     };
-  setInterval(draw, 30); // Matrix rain‚ª~‚Á‚Ä‚­‚é‘¬‚³
+  setInterval(draw, 30); // Matrix rainãŒé™ã£ã¦ãã‚‹é€Ÿã•
   // JavaScript to change background color
   const div = document.querySelector('.color-change');
   let red = 255;
@@ -69,14 +69,14 @@
       if(green > 0){
         green-=step;
       }else{
-        //Ô0—Î0Â255
+        //èµ¤0ç·‘0é’255
         r = true;
       }
     }else{
       if(green < 255){
         green+=step/2;
       }else{
-        //Ô255—Î255Â0 ‚P”Ô Ô¨‰©F¨—Î¨ƒAƒNƒA¨Â¨‡¨Ô
+        //èµ¤255ç·‘255é’0 ï¼‘ç•ª èµ¤â†’é»„è‰²â†’ç·‘â†’ã‚¢ã‚¯ã‚¢â†’é’â†’ç´«â†’èµ¤
         r = false;
         g = true;
       }
@@ -86,14 +86,14 @@
       if(red > 0){
         red-=step;
       }else{
-        //Ô0—Î255Â0@—Î¨ƒAƒNƒA¨Â
+        //èµ¤0ç·‘255é’0ã€€ç·‘â†’ã‚¢ã‚¯ã‚¢â†’é’
         b = true;
       }
     }else{
       if(red < 255){
         red+=step;
       }else{
-        //Ô255—Î0Â255
+        //èµ¤255ç·‘0é’255
         b = false;
       }
     }
@@ -101,14 +101,14 @@
       if(blue > 0){
         blue-=step;
       }else{
-        //Ô255—Î0Â0
+        //èµ¤255ç·‘0é’0
         g = true;
       }
     }else{
       if(blue < 255){
         blue+=step;
       }else{
-        //Ô0—Î255Â255
+        //èµ¤0ç·‘255é’255
         g = false;
       }
     }
@@ -121,3 +121,4 @@
 
 </body>
 </html>
+
